@@ -13,6 +13,9 @@ module.exports = class Util {
     constructor(client) {
         this.client = client
     }
+    get directory() {
+        return `${path.dirname(require.main.filename)}${path.sep}`
+    }
     minToMs(min) {
         return min * 60 * 1000
     }
@@ -40,11 +43,11 @@ module.exports = class Util {
             .join(" ")
     }
     async LoadCommands() {
-        glob(`${process.cwd()}/src/Commands/**/*.js`).then(async (slashFile) => {
+        glob(`${this.directory}/Commands/**/*.js`).then(async (slashFile) => {
             for (let cmds of slashFile) {
                 delete require.cache[cmds];
 
-                const File = require(`../../${cmds}`);
+                const File = require(cmds);
 
                 const command = new File(this.client);
                 if (!(command instanceof Command)) throw new TypeError("File located is not an instance of Command Class")
@@ -57,12 +60,11 @@ module.exports = class Util {
         })
     }
     async LoadEvents() {
-        console.log(process.cwd())
-        glob(`${process.cwd()}/src/Events/**/*.js`).then(async (eventFile) => {
+        glob(`${this.directory}/Events/**/*.js`).then(async (eventFile) => {
             for (let event of eventFile) {
                 delete require.cache[event];
 
-                const File = require(`../../${event}`);
+                const File = require(event);
 
                 const events = new File(this.client);
                 if (events.disabled) continue;
