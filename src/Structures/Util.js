@@ -4,7 +4,6 @@ const path = require('path')
 const { glob } = require('glob');
 const Command = require('./Command')
 const Event = require('./Event')
-const sep = path.sep
 
 module.exports = class Util {
     /**
@@ -15,7 +14,7 @@ module.exports = class Util {
         this.client = client
     }
     get directory() {
-        return `${path.dirname(require.main.filename)}${sep}`
+        return `${path.dirname(require.main.filename)}${path.sep}`
     }
     minToMs(min) {
         return min * 60 * 1000
