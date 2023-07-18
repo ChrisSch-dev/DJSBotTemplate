@@ -44,7 +44,7 @@ module.exports = class Util {
             .join(" ")
     }
     async LoadCommands() {
-        glob(`${this.directory}Commands${sep}**${sep}*.js`).then(async (slashFile) => {
+        glob(path.join(this.directory, "Commands", "**", "*.js")).then(async (slashFile) => {
             for (let cmds of slashFile) {
                 delete require.cache[cmds];
 
@@ -61,7 +61,7 @@ module.exports = class Util {
         })
     }
     async LoadEvents() {
-        glob(`${this.directory}Events${sep}**${sep}*.js`).then(async (eventFile) => {
+        glob(path.join(this.directory, "Events", "**", "*.js")).then(async (eventFile) => {
             for (let event of eventFile) {
                 delete require.cache[event];
 
